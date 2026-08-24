@@ -41,8 +41,42 @@
     el.style.setProperty("--schweb", (i % 4) * 0.9 + "s");
     el.innerHTML = '<img src="assets/media/' + st.datei +
                    '" alt="" loading="lazy" decoding="async">';
+    machZiehbar(el);
     streu.appendChild(el);
   });
+
+  /* Jedes Bild laesst sich mit Maus oder Finger frei herumschieben. */
+  var obersteEbene = 5;
+
+  function machZiehbar(el) {
+    var startX = 0, startY = 0, dx = 0, dy = 0, aktiv = false;
+
+    el.addEventListener("pointerdown", function (e) {
+      aktiv = true;
+      startX = e.clientX - dx;
+      startY = e.clientY - dy;
+      el.classList.add("zieht");
+      el.style.zIndex = ++obersteEbene;
+      try { el.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+
+    el.addEventListener("pointermove", function (e) {
+      if (!aktiv) return;
+      dx = e.clientX - startX;
+      dy = e.clientY - startY;
+      el.style.setProperty("--dx", dx + "px");
+      el.style.setProperty("--dy", dy + "px");
+    });
+
+    ["pointerup", "pointercancel"].forEach(function (ev) {
+      el.addEventListener(ev, function (e) {
+        if (!aktiv) return;
+        aktiv = false;
+        el.classList.remove("zieht");
+        try { el.releasePointerCapture(e.pointerId); } catch (err) {}
+      });
+    });
+  }
 
   /* ── the cards ── */
 

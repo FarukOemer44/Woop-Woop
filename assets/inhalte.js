@@ -36,14 +36,16 @@ const START = {
 /* The memes floating around the page — same scatter on phone and desktop.
    oben = percent down the page, seite = which edge, breite = px, drehung = deg. */
 const STREUUNG = [
-  { datei: "hot-gf.webp",     oben:  4, seite: "links",  breite: 247, drehung: -6 },
-  { datei: "nice-guy.gif",    oben: 12, seite: "rechts", breite: 214, drehung:  6 },
-  { datei: "crying.webp",     oben: 26, seite: "links",  breite: 201, drehung:  5 },
-  { datei: "drachenlord.gif", oben: 37, seite: "rechts", breite: 266, drehung: -4 },
-  { datei: "cat.webp",        oben: 51, seite: "links",  breite: 195, drehung:  4 },
-  { datei: "boy-love.webp",   oben: 63, seite: "rechts", breite: 253, drehung: -5 },
-  { datei: "drachenlord.gif", oben: 77, seite: "links",  breite: 221, drehung: -9 },
-  { datei: "hot-gf.webp",     oben: 88, seite: "rechts", breite: 208, drehung:  8 },
+  { datei: "hot-gf.webp",     oben:  3, seite: "links",  breite: 247, drehung: -6 },
+  { datei: "nice-guy.gif",    oben: 11, seite: "rechts", breite: 214, drehung:  6 },
+  { datei: "finn.gif",        oben: 21, seite: "links",  breite: 205, drehung: -7 },
+  { datei: "drachenlord.gif", oben: 31, seite: "rechts", breite: 266, drehung: -4 },
+  { datei: "crying.webp",     oben: 42, seite: "links",  breite: 201, drehung:  5 },
+  { datei: "huh-cat.gif",     oben: 52, seite: "rechts", breite: 232, drehung:  3 },
+  { datei: "cat.webp",        oben: 62, seite: "links",  breite: 195, drehung:  4 },
+  { datei: "boy-love.webp",   oben: 71, seite: "rechts", breite: 253, drehung: -5 },
+  { datei: "drachenlord.gif", oben: 82, seite: "links",  breite: 221, drehung: -9 },
+  { datei: "hot-gf.webp",     oben: 90, seite: "rechts", breite: 208, drehung:  8 },
 ];
 
 const KARTEN = [
@@ -80,4 +82,4 @@ const BRIEF = {
   signatur: "Always yours, Ömer",
 };
 
-const FUSS = "Made for you.";
+const FUSS = "Made for you. Drag the pictures around.";

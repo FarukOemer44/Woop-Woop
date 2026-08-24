@@ -719,12 +719,26 @@ body.start-offen { overflow: hidden; }
   border-radius: 2px;
   rotate: var(--drehung, 0deg);
   box-shadow: 0 14px 30px -16px rgba(36, 28, 24, .75);
-  animation: schweben 7s ease-in-out infinite alternate;
-  animation-delay: var(--schweb, 0s);
+
+  /* anfassbar: der Container laesst Klicks durch, die Bilder nicht */
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  translate: var(--dx, 0px) var(--dy, 0px);
+  transition: box-shadow .25s var(--kurve), scale .25s var(--kurve);
 }
 
 .streu__stueck--links  { left:  var(--seite, 1%); }
 .streu__stueck--rechts { right: var(--seite, 1%); }
+
+.streu__stueck.zieht {
+  cursor: grabbing;
+  z-index: 5;
+  scale: 1.05;
+  box-shadow: 0 30px 50px -18px rgba(36, 28, 24, .9);
+}
 
 .streu__stueck img {
   display: block;
@@ -732,7 +746,13 @@ body.start-offen { overflow: hidden; }
   height: auto;
   border-radius: 1px;
   background: #17100F;
+  pointer-events: none;       /* sonst greift das native Bild-Drag */
+  -webkit-user-drag: none;
+  animation: schweben 7s ease-in-out infinite alternate;
+  animation-delay: var(--schweb, 0s);
 }
+
+.streu__stueck.zieht img { animation-play-state: paused; }
 
 @keyframes schweben {
   from { translate: 0 0; }
@@ -756,6 +776,6 @@ body.start-offen { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .streu__stueck { animation: none; }
+  .streu__stueck img { animation: none; }
   .start__herz { animation: none; }
 }
