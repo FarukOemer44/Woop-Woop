@@ -1,0 +1,491 @@
+/* ─────────────────────────────────────────────
+   Papier & Tinte — Karten zum Umdrehen
+   ───────────────────────────────────────────── */
+
+:root {
+  --papier:       #F2E9DA;
+  --papier-hell:  #FBF5E9;
+  --papier-tief:  #E4D7C0;
+  --tinte:        #241C18;
+  --tinte-weich:  #6B594C;
+  --rot:          #9E2B25;
+  --rot-tief:     #5E1B18;
+  --rot-tiefer:   #421110;
+  --gold:         #B4894A;
+
+  --schrift-anzeige: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --schrift-text:    "Cormorant Garamond", Georgia, serif;
+  --schrift-hand:    "Caveat", "Segoe Script", cursive;
+
+  --rand: clamp(1.25rem, 5vw, 5rem);
+  --kurve: cubic-bezier(.22, .85, .25, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body, h1, h2, p, ul, li, figure { margin: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  min-height: 100svh;
+  padding: 0 var(--rand) clamp(3rem, 8vw, 7rem);
+  color: var(--tinte);
+  font-family: var(--schrift-text);
+  font-size: clamp(1rem, .95rem + .3vw, 1.15rem);
+  line-height: 1.55;
+  background-color: var(--papier);
+  background-image:
+    radial-gradient(115% 70% at 50% -8%,  rgba(255, 250, 240, .95), transparent 62%),
+    radial-gradient(85%  55% at 8%  108%, rgba(158, 43, 37, .13),   transparent 66%),
+    radial-gradient(75%  55% at 96% 88%,  rgba(180, 137, 74, .15),  transparent 62%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Papierkorn über allem */
+.korn {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: .38;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Kopf ──────────────────────────────────── */
+
+.kopf {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 11vw, 8rem) 0 clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.kopf__gruss {
+  font-family: var(--schrift-hand);
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  color: var(--rot);
+  transform: rotate(-2.5deg);
+  transform-origin: left center;
+  margin-bottom: .35em;
+}
+
+.kopf__titel {
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 120, "SOFT" 60, "WONK" 1;
+  font-weight: 560;
+  font-size: clamp(2.6rem, 9.5vw, 6.4rem);
+  line-height: .95;
+  letter-spacing: -.022em;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+.kopf__unter {
+  margin-top: clamp(1.1rem, 2.5vw, 1.8rem);
+  max-width: 38ch;
+  font-size: clamp(1.05rem, 1rem + .45vw, 1.35rem);
+  color: var(--tinte-weich);
+}
+
+.kopf__unter em,
+.brief__text em {
+  font-style: italic;
+  color: var(--rot);
+}
+
+/* Fortschritt */
+.fortschritt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: clamp(2rem, 5vw, 3.2rem);
+  max-width: 34rem;
+}
+
+.fortschritt__balken {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--tinte) 22%, transparent);
+}
+
+.fortschritt__balken i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--p) * 100%);
+  height: 1px;
+  background: var(--rot);
+  transition: width .6s var(--kurve);
+}
+
+.fortschritt__balken i::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: -2.5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rot);
+  opacity: var(--p);
+}
+
+.fortschritt__text {
+  font-size: .82rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--tinte-weich);
+  white-space: nowrap;
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 9, "SOFT" 0, "WONK" 0;
+  font-weight: 500;
+}
+
+/* ── Kartengitter ──────────────────────────── */
+
+.gitter {
+  max-width: 82rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+  gap: clamp(1.4rem, 3vw, 2.6rem);
+  perspective: 1800px;
+}
+
+.karte {
+  /* Button-Reset */
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  cursor: pointer;
+  border-radius: 3px;
+
+  /* Streuung und Hover laufen ueber die eigenstaendigen Transform-Eigenschaften,
+     damit die Einblend-Animation sie nicht ueberschreibt. */
+  rotate: var(--dreh, 0deg);
+  transition: rotate .5s var(--kurve), translate .5s var(--kurve);
+
+  animation: auftauchen .8s var(--kurve) backwards;
+  animation-delay: calc(var(--i, 0) * 55ms + 280ms);
+}
+
+@keyframes auftauchen {
+  from { opacity: 0; translate: 0 26px; scale: .97; }
+}
+
+/* leicht schief hingelegt */
+.karte:nth-child(4n+1) { --dreh: -1.5deg; }
+.karte:nth-child(4n+2) { --dreh:  1.1deg; }
+.karte:nth-child(4n+3) { --dreh: -.7deg;  }
+.karte:nth-child(4n+4) { --dreh:  1.8deg; }
+
+.karte:hover,
+.karte:focus-visible { rotate: 0deg; translate: 0 -7px; }
+
+.karte:focus-visible { outline: 2px solid var(--rot); outline-offset: 7px; }
+.karte:focus:not(:focus-visible) { outline: none; }
+
+.karte__innen {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .78s var(--kurve);
+}
+
+.karte.ist-offen .karte__innen { transform: rotateY(180deg); }
+
+.karte__seite {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 3px;
+  padding: clamp(1.1rem, 2.2vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Vorderseite: Papier */
+.karte__seite--vorn {
+  background:
+    linear-gradient(160deg, var(--papier-hell), var(--papier-tief));
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 2px 3px rgba(36,28,24,.10),
+    0 14px 28px -14px rgba(36,28,24,.42);
+}
+
+.karte__seite--vorn::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid color-mix(in srgb, var(--tinte) 13%, transparent);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.karte__nummer {
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 9, "SOFT" 0, "WONK" 0;
+  font-weight: 600;
+  font-size: .74rem;
+  letter-spacing: .22em;
+  color: var(--gold);
+}
+
+.karte__frage {
+  margin-top: auto;
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 60, "SOFT" 50, "WONK" 1;
+  font-weight: 500;
+  font-size: clamp(1.32rem, 1.05rem + 1.05vw, 1.85rem);
+  line-height: 1.08;
+  letter-spacing: -.014em;
+  text-wrap: balance;
+}
+
+.karte__hinweis {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5em;
+  font-size: .74rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--tinte-weich);
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 9;
+  font-weight: 500;
+}
+
+.karte__hinweis span {
+  display: inline-block;
+  transition: transform .4s var(--kurve);
+}
+
+.karte:hover .karte__hinweis span { transform: translateX(5px); }
+
+/* Rückseite: Tinte */
+.karte__seite--hinten {
+  transform: rotateY(180deg);
+  color: var(--papier-hell);
+  background:
+    radial-gradient(120% 90% at 20% 0%, var(--rot-tief), var(--rot-tiefer) 72%);
+  box-shadow:
+    0 2px 3px rgba(36,28,24,.16),
+    0 18px 34px -14px rgba(66,17,16,.6);
+  justify-content: center;
+}
+
+.karte__seite--hinten::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.karte__antwort {
+  font-size: clamp(1rem, .92rem + .35vw, 1.16rem);
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--papier-hell) 92%, transparent);
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: .25rem;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--gold) 55%, transparent) transparent;
+}
+
+.karte__antwort::first-letter {
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 144, "SOFT" 70, "WONK" 1;
+  font-weight: 600;
+  font-size: 2.6em;
+  line-height: .8;
+  float: left;
+  margin: .06em .1em 0 0;
+  color: var(--gold);
+}
+
+.karte__zu {
+  margin-top: 1rem;
+  font-size: .7rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--gold) 85%, transparent);
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 9;
+  font-weight: 500;
+  flex: none;
+}
+
+/* ── Der Brief am Ende ─────────────────────── */
+
+.brief {
+  max-width: 40rem;
+  margin: clamp(4rem, 12vw, 8rem) auto 0;
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.8rem, 5vw, 3.5rem) clamp(2.8rem, 6vw, 4rem);
+  text-align: center;
+  position: relative;
+  background: linear-gradient(165deg, var(--papier-hell), var(--papier-tief));
+  border-radius: 3px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 26px 60px -30px rgba(36,28,24,.55);
+  animation: brief-auf 1.1s var(--kurve) both;
+}
+
+.brief::before {
+  content: "";
+  position: absolute;
+  inset: 11px;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  pointer-events: none;
+}
+
+@keyframes brief-auf {
+  from { opacity: 0; transform: translateY(30px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+}
+
+.brief__siegel {
+  width: 3.1rem;
+  height: 3.1rem;
+  margin: 0 auto clamp(1.2rem, 3vw, 1.8rem);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #B8352E, var(--rot-tief) 74%);
+  color: var(--papier-hell);
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px -4px rgba(94,27,24,.8), 0 1px 0 rgba(255,255,255,.35) inset;
+  animation: siegel-drauf .7s var(--kurve) .35s both;
+}
+
+@keyframes siegel-drauf {
+  0%   { opacity: 0; transform: scale(2.4) rotate(-14deg); }
+  70%  { opacity: 1; transform: scale(.92) rotate(3deg); }
+  100% { opacity: 1; transform: scale(1)   rotate(0deg); }
+}
+
+.brief__titel {
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 120, "SOFT" 60, "WONK" 1;
+  font-weight: 540;
+  font-size: clamp(1.9rem, 5.5vw, 3rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.brief__text {
+  margin-top: 1.2rem;
+  font-size: clamp(1.08rem, 1rem + .45vw, 1.32rem);
+  color: var(--tinte-weich);
+  text-wrap: pretty;
+}
+
+.brief__signatur {
+  margin-top: clamp(1.6rem, 4vw, 2.4rem);
+  font-family: var(--schrift-hand);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--rot);
+  transform: rotate(-2deg);
+}
+
+/* ── Fuß ───────────────────────────────────── */
+
+.fuss {
+  max-width: 82rem;
+  margin: clamp(3.5rem, 9vw, 6rem) auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid color-mix(in srgb, var(--tinte) 14%, transparent);
+}
+
+.fuss__notiz {
+  font-family: var(--schrift-hand);
+  font-size: 1.3rem;
+  color: var(--tinte-weich);
+}
+
+.fuss__reset {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: .2rem 0;
+  cursor: pointer;
+  font-family: var(--schrift-anzeige);
+  font-variation-settings: "opsz" 9;
+  font-weight: 500;
+  font-size: .74rem;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: var(--tinte-weich);
+  border-bottom: 1px solid color-mix(in srgb, var(--tinte) 25%, transparent);
+  transition: color .3s, border-color .3s;
+}
+
+.fuss__reset:hover { color: var(--rot); border-color: var(--rot); }
+.fuss__reset:focus-visible { outline: 2px solid var(--rot); outline-offset: 4px; }
+
+/* ── Blütenregen beim Freischalten ─────────── */
+
+.konfetti {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blatt {
+  position: absolute;
+  top: -8vh;
+  font-size: var(--gr, 14px);
+  color: var(--rot);
+  opacity: 0;
+  animation: fallen var(--dauer, 9s) linear var(--verzug, 0s) forwards;
+}
+
+@keyframes fallen {
+  0%   { opacity: 0;   transform: translateY(0)      rotate(0deg); }
+  8%   { opacity: .75; }
+  85%  { opacity: .55; }
+  100% { opacity: 0;   transform: translateY(112vh) rotate(var(--drehung, 320deg)); }
+}
+
+/* ── Handy ─────────────────────────────────── */
+
+@media (max-width: 34rem) {
+  .gitter { grid-template-columns: 1fr; gap: 1.1rem; }
+  .karte { aspect-ratio: 16 / 10; --dreh: 0deg !important; }
+  .karte__frage { margin-top: auto; }
+}
+
+/* ── Ruhige Bewegung ───────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: .01ms !important;
+  }
+  .konfetti { display: none; }
+}

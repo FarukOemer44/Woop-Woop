@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Für dich</title>
+<meta name="description" content="Zwölf Karten, zwölf Antworten.">
+<meta name="theme-color" content="#F2E9DA">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#128140;</text></svg>">
+</head>
+<body>
+
+<div class="korn" aria-hidden="true"></div>
+<div class="konfetti" id="konfetti" aria-hidden="true"></div>
+
+<header class="kopf">
+  <p class="kopf__gruss" id="kopf-gruss">Für dich</p>
+  <h1 class="kopf__titel" id="kopf-titel"></h1>
+  <p class="kopf__unter" id="kopf-unter"></p>
+
+  <div class="fortschritt">
+    <div class="fortschritt__balken"><i id="balken" style="--p:0"></i></div>
+    <p class="fortschritt__text"><span id="zaehler">0</span> von <span id="gesamt">0</span> geöffnet</p>
+  </div>
+</header>
+
+<main>
+  <section class="gitter" id="gitter" aria-label="Karten"></section>
+</main>
+
+<section class="brief" id="brief" hidden>
+  <div class="brief__siegel" aria-hidden="true">&#9829;</div>
+  <h2 class="brief__titel" id="brief-titel"></h2>
+  <p class="brief__text" id="brief-text"></p>
+  <p class="brief__signatur" id="brief-signatur"></p>
+</section>
+
+<button class="musik" id="musik" type="button" aria-pressed="false">
+  <span class="musik__wellen" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  <span class="musik__text" id="musik-text">Play music</span>
+</button>
+<audio id="musik-quelle" loop preload="metadata"></audio>
+
+<footer class="fuss">
+  <p class="fuss__notiz" id="fuss-notiz"></p>
+  <button class="fuss__reset" id="reset" type="button">Alle Karten wieder zumachen</button>
+</footer>
+
+<script src="assets/inhalte.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
