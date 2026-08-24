@@ -30,6 +30,48 @@
   document.title = "For " + NAMEN.fuerSie;
   gesamt.textContent = KARTEN.length;
 
+  /* ── the 50 reasons ── */
+
+  (function () {
+    if (typeof GRUENDE === "undefined") return;
+
+    document.getElementById("gruende-titel").textContent = GRUENDE.titel;
+    document.getElementById("gruende-unter").textContent = GRUENDE.unter;
+
+    var liste = document.getElementById("gruende-liste");
+    GRUENDE.liste.forEach(function (grund) {
+      var li = document.createElement("li");
+      li.innerHTML = "<span>" + grund + "</span>";
+      liste.appendChild(li);
+    });
+
+    /* Sie tauchen beim Scrollen nacheinander auf statt alle auf einmal. */
+    var eintraege = liste.querySelectorAll("li");
+
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      Array.prototype.forEach.call(eintraege, function (li) {
+        li.classList.add("sichtbar");
+      });
+      return;
+    }
+
+    var beobachter = new IntersectionObserver(function (sichtungen) {
+      var n = 0;
+      sichtungen.forEach(function (sicht) {
+        if (!sicht.isIntersecting) return;
+        var li = sicht.target;
+        li.style.transitionDelay = (n++ * 45) + "ms";
+        li.classList.add("sichtbar");
+        beobachter.unobserve(li);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+
+    Array.prototype.forEach.call(eintraege, function (li) {
+      beobachter.observe(li);
+    });
+  })();
+
   /* ── the memes floating around the page ── */
 
   (typeof STREUUNG === "undefined" ? [] : STREUUNG).forEach(function (st, i) {
