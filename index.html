@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Für dich</title>
-<meta name="description" content="Zwölf Karten, zwölf Antworten.">
+<title>For Mali</title>
+<meta name="description" content="Six cards, six answers.">
 <meta name="theme-color" content="#F2E9DA">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,22 +17,29 @@
 <body>
 
 <div class="korn" aria-hidden="true"></div>
+
+<div class="start" id="start">
+  <video class="start__video" id="start-video" playsinline muted autoplay preload="auto"></video>
+  <p class="start__hinweis" id="start-hinweis"></p>
+</div>
 <div class="konfetti" id="konfetti" aria-hidden="true"></div>
 
 <header class="kopf">
-  <p class="kopf__gruss" id="kopf-gruss">Für dich</p>
+  <p class="kopf__gruss" id="kopf-gruss">For you</p>
   <h1 class="kopf__titel" id="kopf-titel"></h1>
   <p class="kopf__unter" id="kopf-unter"></p>
 
   <div class="fortschritt">
     <div class="fortschritt__balken"><i id="balken" style="--p:0"></i></div>
-    <p class="fortschritt__text"><span id="zaehler">0</span> von <span id="gesamt">0</span> geöffnet</p>
+    <p class="fortschritt__text"><span id="zaehler">0</span> of <span id="gesamt">0</span> opened</p>
   </div>
 </header>
 
 <main>
-  <section class="gitter" id="gitter" aria-label="Karten"></section>
+  <section class="gitter" id="gitter" aria-label="Cards"></section>
 </main>
+
+<div class="streu" id="streu" aria-hidden="true"></div>
 
 <section class="brief" id="brief" hidden>
   <div class="brief__siegel" aria-hidden="true">&#9829;</div>
@@ -41,15 +48,10 @@
   <p class="brief__signatur" id="brief-signatur"></p>
 </section>
 
-<button class="musik" id="musik" type="button" aria-pressed="false">
-  <span class="musik__wellen" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-  <span class="musik__text" id="musik-text">Play music</span>
-</button>
-<audio id="musik-quelle" loop preload="metadata"></audio>
+<audio id="musik-quelle" loop preload="auto"></audio>
 
 <footer class="fuss">
   <p class="fuss__notiz" id="fuss-notiz"></p>
-  <button class="fuss__reset" id="reset" type="button">Alle Karten wieder zumachen</button>
 </footer>
 
 <script src="assets/inhalte.js"></script>

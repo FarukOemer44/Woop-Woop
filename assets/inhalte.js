@@ -2,8 +2,9 @@
    EVERYTHING YOU EDIT IS IN THIS FILE.  Leave the others alone.
 
    - names, headline, cards, final letter
-   - "bild" is optional: a file inside assets/media/  (webp, gif, jpg, png)
    - add or remove cards freely, the count doesn't matter
+   - STREUUNG = the memes floating around the page
+   - a card can also carry its own picture with  bild: "file.webp"
    ═══════════════════════════════════════════════════════════════════ */
 
 const NAMEN = {
@@ -18,22 +19,41 @@ const KOPF = {
   unter: "…to baby you and hold your hands. <em>Tap a card</em> — the answer is on the back.",
 };
 
+/* Runs from the very top, on repeat, the whole time. */
 const MUSIK = {
   datei: "assets/media/musik.mp3",
-  titel: "Drachenlord singt Adel Tawil",
+  start: 40,           // seconds — where the track begins, every single loop
   lautstaerke: 0.35,   // 0 = silent, 1 = full blast
 };
+
+/* The intro she sees first: the animation plays, then the cards appear.
+   A tap anywhere skips it. */
+const START = {
+  video: "assets/media/intro.mp4",
+  hinweis: "sound on 🔊 — tap to continue",
+};
+
+/* The memes floating around the page — same scatter on phone and desktop.
+   oben = percent down the page, seite = which edge, breite = px, drehung = deg. */
+const STREUUNG = [
+  { datei: "hot-gf.webp",     oben:  4, seite: "links",  breite: 247, drehung: -6 },
+  { datei: "nice-guy.gif",    oben: 12, seite: "rechts", breite: 214, drehung:  6 },
+  { datei: "crying.webp",     oben: 26, seite: "links",  breite: 201, drehung:  5 },
+  { datei: "drachenlord.gif", oben: 37, seite: "rechts", breite: 266, drehung: -4 },
+  { datei: "cat.webp",        oben: 51, seite: "links",  breite: 195, drehung:  4 },
+  { datei: "boy-love.webp",   oben: 63, seite: "rechts", breite: 253, drehung: -5 },
+  { datei: "drachenlord.gif", oben: 77, seite: "links",  breite: 221, drehung: -9 },
+  { datei: "hot-gf.webp",     oben: 88, seite: "rechts", breite: 208, drehung:  8 },
+];
 
 const KARTEN = [
   {
     frage: "What I love about you",
     antwort: "Well — everything. Your eyes, your funny side, your loving side, your crafty side. Legitimately everything. You make me feel like I can forget all the stress when I'm with you.",
-    bild: "hot-gf.webp",
   },
   {
     frage: "What I think about when you're not here",
     antwort: "I'm crying because I miss you 😢 peace out. …Spaß. But really: I miss you.",
-    bild: "cat.webp",
   },
   {
     frage: "What I never thanked you enough for",
@@ -42,12 +62,10 @@ const KARTEN = [
   {
     frage: "The first thing I noticed about you",
     antwort: "Your bright smile and your eyes. How well-spoken you are, and how extremely funny you were. I had butterflies in my stomach the whole time.",
-    bild: "boy-love.webp",
   },
   {
     frage: "Everything I still want to do with you",
     antwort: "I WANT TO SEE EVERYTHING WITH YOU. I want to go on vacation with you, laugh with you. I want to see everything with you.",
-    bild: "nice-guy.gif",
   },
   {
     frage: "What I've learned from you",
